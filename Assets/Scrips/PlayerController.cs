@@ -24,9 +24,16 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         horizontalImput = Input.GetAxis("Horizontal");
-        jumpInput = Input.GetButtonDown("Jump");
+        if(horizontalImput < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if(horizontalImput > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
 
-        if(jumpInput == true)
+        if (Input.GetButtonDown("Jump") == true && GroundSensor.isGrounded)
         {
             characterRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
