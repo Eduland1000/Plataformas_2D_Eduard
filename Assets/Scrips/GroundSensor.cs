@@ -11,23 +11,25 @@ public class GroundSensor : MonoBehaviour
     if(collider.gameObject.layer==6)
     {
         isGrounded = true;
+        PlayerController.characterAnimator.SetBool("IsJumping", false);
     }
    }
 
    void OnTriggerStay2D(Collider2D collider)
    {
-    if(collider.gameObject.layer == 6)
+        if(collider.gameObject.layer == 6)
     {
         isGrounded = true;
     }
     
    }
 
-   void OnTriggerExit2D(Collider2D collider)
+     void OnTriggerExit2D(Collider2D collider)
    {
-   if(collider.gameObject.layer ==6)
+        if(collider.gameObject.layer ==6)
    {
-    isGrounded = false;
+        isGrounded = false;
+         PlayerController.characterAnimator.SetBool("IsJumping",true);
    }
    }
 }
