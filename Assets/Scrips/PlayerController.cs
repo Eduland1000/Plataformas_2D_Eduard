@@ -15,6 +15,8 @@
 
     [SerializeField] private int healthPoints;
 
+    private bool isAttacking;
+
     void Awake()
     {
         characterRigidbody = GetComponent<Rigidbody2D>();
@@ -28,11 +30,45 @@
 
         void Update()
         {
+            Movement();
+
+            if (Input.GetButtonDown("Jump") && GroundSensor.isGrounded && !isAttacking)
+            {
+                Jump();
+            }
+
+            if(Input.GetButtonDown("Attack") && GroundSensor.isGrounded && !isAttacking)
+            {
+                Attack();
+            }
+        }
+
+        // Update is called once per frame
+        void FixedUpdate()
+        {
+            
+            if(!isAttacking)
+            {
+               characterRigidbody.velocity = new Vector2(horizontalImput * characterSpeed,characterRigidbody.velocity.y);
+            }
+            else
+            {
+                characterRigidbody.velocity = new Vector2(0 * characterSpeed,characterRigidbody.velocity.y);
+            }
+        }
+        void Movement()
+        {    
             horizontalImput = Input.GetAxis("Horizontal");
             if(horizontalImput < 0)
             {
+               if(!isAttacking)
+               {
                 transform.rotation = Quaternion.Euler(0, 180, 0);
+
+               }
+                 
                 characterAnimator.SetBool("IsRunning", true);
+        
                 
             }
             else if(horizontalImput > 0)
@@ -45,21 +81,27 @@
             {
                 characterAnimator.SetBool("IsRunning", false);
             }
+        }
         
-
-            if (Input.GetButtonDown("Jump") == true && GroundSensor.isGrounded)
-            {
-                characterRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        void Jump()
+        {
+            characterRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 characterAnimator.SetBool("IsJumping", true);
-            }
-
-        
         }
 
-        // Update is called once per frame
-        void FixedUpdate()
+        void Attack()
         {
-            characterRigidbody.velocity = new Vector2(horizontalImput * characterSpeed,characterRigidbody.velocity.y);
+            StartCoroutine(AttackAnimaton());
+            characterAnimator.SetTrigger("Attack");
+        }
+
+        IEnumerator AttackAnimaton()
+        {
+            isAttacking=true;
+
+            yield return new WaitForSeconds(0.5f);
+
+            isAttacking = false;
         }
 
         void TakeDamage()
@@ -67,16 +109,20 @@
             healthPoints--;
             characterAnimator.SetTrigger("IsHurt");
             
-            if(healthPoints == 0)
+            if(healthPoints <= 0)
             {
                 Die();  
+            }
+            else
+            {
+                characterAnimator.SetTrigger("IsHurt");
             }
         }
 
         void Die()
         {
-            characterAnimator.SetBool("IsDead", true);
-            Destroy (gameObject, 0.3f);
+            characterAnimator.SetTrigger("IsDead");
+            Destroy (gameObject, 0.6f);
         }
 
         void OnCollisionEnter2D(Collision2D collision)
