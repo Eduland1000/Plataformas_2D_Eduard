@@ -1,5 +1,6 @@
    using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -39,6 +40,11 @@ public class PlayerController : MonoBehaviour
         {
             Attack();
         }
+
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            GameManager.instance.Pause();
+        }
     }
 
     void FixedUpdate()
@@ -51,9 +57,9 @@ public class PlayerController : MonoBehaviour
 
     void Movement()
     {
-        if(isAttacking)
+        if(isAttacking && horizontalInput == 0)
         {
-            horizontalInput = 0;
+            horizontalInput = 0; 
         }
         else
         {
@@ -89,15 +95,8 @@ public class PlayerController : MonoBehaviour
     {
         StartCoroutine(AttackAnimation());
 
-        if(horizontalInput == 0)
-        {
-            characterAnimator.SetTrigger("Attack");
-        }
+        characterAnimator.SetTrigger("Attack");
 
-        else
-        {
-            characterAnimator.SetTrigger("RunAttack");
-        }
     }
   
     IEnumerator AttackAnimation()
@@ -140,11 +139,10 @@ public class PlayerController : MonoBehaviour
         isAttacking = false; 
     }*/
 
-    void TakeDamage()
+    void TakeDamage(int damage)
     {
-        healthPoints--;
-        characterAnimator.SetTrigger("IsHurt");
-        
+        healthPoints-= damage;      
+
         if (healthPoints <= 0)
         {
             Die();  
@@ -165,8 +163,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.layer == 8)
         {
-            TakeDamage();
+            TakeDamage(1);
         }
+       
     }
 
     void OnDrawGizmos()
