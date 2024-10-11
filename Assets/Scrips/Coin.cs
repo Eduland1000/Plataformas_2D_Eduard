@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Coin : MonoBehaviour
+
+
 {
     private bool interactable;
 
@@ -13,7 +15,7 @@ public class Coin : MonoBehaviour
         {
             GameManager.instance.AddCoin(); 
 
-            SoundManager.instance.PlaySFX(SoundManager.instance.coinAudio);
+            SoundManager.instance.PlaySFX(SoundManager.instance._audioSource ,SoundManager.instance.coinAudio);
 
             Destroy(gameObject);
         }

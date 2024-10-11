@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
-    private AudioSource _audioSource;
+    public AudioSource _audioSource;
 
-    public AudioClip coinAudio;
+   public AudioClip coinAudio;
 
     public AudioClip hurtAudio;
+
+    public AudioClip MimicoAudio;
+
+    /*public AudioClip [] audios;*/
 
     void Awake()
     {
@@ -31,8 +36,8 @@ public class SoundManager : MonoBehaviour
         _audioSource.PlayOneShot.(_coinAudio);
     }*/
 
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(AudioSource source, AudioClip clip)
     {
-        _audioSource.PlayOneShot(clip);
+        source.PlayOneShot(clip);
     }
 }
