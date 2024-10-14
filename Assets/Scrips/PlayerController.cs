@@ -38,7 +38,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Attack") && GroundSensor.isGrounded && !isAttacking)
         {
-            Attack();
+            //Attack();
+            StartAttack();
         }
 
         if(Input.GetKeyDown(KeyCode.P))
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour
         characterAnimator.SetBool("IsJumping", true);
     }
 
-    void Attack()
+    /*void Attack()
     {
         StartCoroutine(AttackAnimation());
 
@@ -118,7 +119,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
 
         isAttacking = false;
-    }
+    }*/
     /*void RunAttack()
     {
         isAttacking = true;
@@ -138,6 +139,34 @@ public class PlayerController : MonoBehaviour
         characterAnimator.SetBool("RunAttack", false); 
         isAttacking = false; 
     }*/
+
+    void StartAttack()
+    {
+        isAttacking = true;
+        characterAnimator.SetTrigger("Attack");
+    }
+
+    void Attack()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackHitBox.position, attackRadius);
+        foreach (Collider2D enemy in colliders)
+        {
+            if (enemy.gameObject.CompareTag("Mimico"))
+            {
+                //Destroy(enemy.gameObject);
+                Rigidbody2D enemyRigidbody = enemy.GetComponent<Rigidbody2D>();
+                enemyRigidbody.AddForce(transform.right + transform.up * 2, ForceMode2D.Impulse);
+                
+                Mimico mimicoScript = enemy.GetComponent<Mimico>();
+                mimicoScript.TakeDamage();
+            }
+       }
+    }
+
+    void EndAttacking()
+    {
+        isAttacking = false;
+    }
 
     void TakeDamage(int damage)
     {
