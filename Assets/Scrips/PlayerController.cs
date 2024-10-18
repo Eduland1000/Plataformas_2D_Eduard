@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float characterSpeed = 4.5f;
     [SerializeField] private float jumpForce = 10f;
-    [SerializeField] private int healthPoints = 5;
+    [SerializeField] private int _maxHealth = 5;
+    [SerializeField] private int _currentHealth;
 
     private bool isAttacking;
     [SerializeField] private Transform attackHitBox;
@@ -25,6 +26,13 @@ public class PlayerController : MonoBehaviour
     {
         characterRigidbody = GetComponent<Rigidbody2D>();
         characterAnimator = GetComponent<Animator>();
+    }
+
+    void Start()
+    {
+        _currentHealth = _maxHealth;
+
+        GameManager.instance.SetHealthBar(_maxHealth);
     }
 
     void Update()
@@ -170,9 +178,10 @@ public class PlayerController : MonoBehaviour
 
     void TakeDamage(int damage)
     {
-        healthPoints-= damage;      
+        _currentHealth-= damage;      
+        GameManager.instance.UpdateHealthBar(_currentHealth);
 
-        if (healthPoints <= 0)
+        if (_currentHealth <= 0)
         {
             Die();  
         }
@@ -182,6 +191,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void AddHealth(int amount)
+    {
+        // Aumentar la vida del jugador
+        _currentHealth += amount;
+        GameManager.instance.UpdateHealthBar(_currentHealth);
+
+        // Verificar si la vida del jugador excede la vida máxima
+        if (_currentHealth > _maxHealth)
+        {
+            _currentHealth = _maxHealth;
+        }
+    }
     void Die()
     {
         characterAnimator.SetTrigger("IsDead");
@@ -202,4 +223,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackHitBox.position, attackRadius);
     }
+
+    
 }
