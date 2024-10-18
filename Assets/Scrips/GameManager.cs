@@ -8,10 +8,16 @@ public class GameManager : MonoBehaviour
   
   public static GameManager instance;
    private int coins = 0;
+   private int star = 0;
+
+   private bool pauseAnimation;
 
    [SerializeField] Text _cointext;
    private bool isPaused; 
    [SerializeField] GameObject _pauseCanvas;
+   [SerializeField] Text _startext;
+   [SerializeField] private Animator _pausePanelAnimator;
+
  
    void Awake()
    {
@@ -23,24 +29,41 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
     }
+
+    _pausePanelAnimator = _pauseCanvas.GetComponentInChildren<Animator>();
+
    }
 
    public void Pause()
    {
-    if(!isPaused)
+    if(!isPaused && !pauseAnimation)
     {
+        isPaused = true;
         Time.timeScale = 0;
-        isPaused=true;
         _pauseCanvas.SetActive(true);
     }
-    else
+    else if(isPaused && !pauseAnimation)
     {
-        Time.timeScale =1;
-        isPaused=false;
-        _pauseCanvas.SetActive(false);
+        pauseAnimation = true;
 
+        StartCoroutine(ClosePauseAnimation());
     }
    }
+
+   IEnumerator ClosePauseAnimation()
+    {
+        _pausePanelAnimator.SetBool("Close",true);
+
+        yield return new WaitForSecondsRealtime(0.20f);
+
+        Time.timeScale =1;
+
+       
+        _pauseCanvas.SetActive(false);
+        isPaused=false;
+        _pausePanelAnimator = false;
+    }
+
    public void AddCoin()
    {
     coins++;
@@ -50,8 +73,8 @@ public class GameManager : MonoBehaviour
 
     public void AddStar()
    {
-    coins++;
-    _startext.text = Star.ToString();
+    star++;
+    _startext.text = star.ToString();
     //coins += 1;
    }
 }

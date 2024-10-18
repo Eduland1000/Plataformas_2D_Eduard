@@ -15,6 +15,8 @@ public class SoundManager : MonoBehaviour
 
     public AudioClip MimicoAudio;
 
+    public AudioClip StarAudio;
+
     /*public AudioClip [] audios;*/
 
     void Awake()
