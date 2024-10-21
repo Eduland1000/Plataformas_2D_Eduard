@@ -355,10 +355,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 0}
-  coinAudio: {fileID: 0}
-  hurtAudio: {fileID: 0}
-  MimicoAudio: {fileID: 0}
-  StarAudio: {fileID: 0}
+  coinAudio: {fileID: 8300000, guid: 7dbc3d8a1d6800946b528888c9212643, type: 3}
+  hurtAudio: {fileID: 8300000, guid: 8065953a3fa4964468b05b3d81ccbe8d, type: 3}
+  MimicoAudio: {fileID: 8300000, guid: 34fbe83a98c3fc7449cb5528cabc093c, type: 3}
+  StarAudio: {fileID: 8300000, guid: a585101ed11a63747b4b4d1666055ec8, type: 3}
 --- !u!4 &189679151
 Transform:
   m_ObjectHideFlags: 0
@@ -1809,7 +1809,7 @@ Transform:
   m_GameObject: {fileID: 1009756356}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.83, y: -0.44, z: 0}
+  m_LocalPosition: {x: 32.22, y: 1.38, z: 0}
   m_LocalScale: {x: 2.149, y: 2.149, z: 2.149}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1839,7 +1839,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f9ca37e4dc0f96744b853bc2b62f9f63, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 34fbe83a98c3fc7449cb5528cabc093c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -48560,9 +48560,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 17b57813a2afbc64084c080b7866af18, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.206
   m_Pitch: 1
   Loop: 0
   Mute: 0

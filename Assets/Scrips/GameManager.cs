@@ -20,12 +20,11 @@ public class GameManager : MonoBehaviour
    [SerializeField] Text _startext;
    [SerializeField] private Animator _pausePanelAnimator;
     [SerializeField] private Slider _healthBar;
-    
-    
-
-
-
  
+ void Update()
+ {
+    if(Input.GetKeyDown(KeyCode.L)) StartCoroutine(LoadAsync("Main Menu"));
+ }
    void Awake()
    {
     if(instance != null && instance != this)
@@ -99,7 +98,19 @@ public void SetHealthBar(int maxHealth)
       SceneManager.LoadScene(sceneName);
    }
     
+IEnumerator LoadAsync (string scene) 
+{
+    AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
 
+    while(!asyncLoad.isDone) 
+    {
+        if(asyncLoad.progress <= 0.9f)
+        {
+            progresoDeCarga = asyncLoad.progress;
+            Debug.Log(progresoDeCarga);
+        }
+    }
+}
 }
 
 
