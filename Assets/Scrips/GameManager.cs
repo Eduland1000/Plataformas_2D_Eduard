@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
    [SerializeField] Text _startext;
    [SerializeField] private Animator _pausePanelAnimator;
     [SerializeField] private Slider _healthBar;
+
+    private float progresoDeCarga;
  
  void Update()
  {
@@ -109,6 +111,7 @@ IEnumerator LoadAsync (string scene)
             progresoDeCarga = asyncLoad.progress;
             Debug.Log(progresoDeCarga);
         }
+        yield return null;
     }
 }
 }
