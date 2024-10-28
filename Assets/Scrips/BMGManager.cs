@@ -23,7 +23,7 @@ public class BMGManager : MonoBehaviour
 
         _audioSource.loop = true;
         _audioSource.mute = false;
-        _audioSource.volume = 1;
+        _audioSource.volume = 0.3f;
     }
 
     public void PlayBGM (AudioClip clip) 

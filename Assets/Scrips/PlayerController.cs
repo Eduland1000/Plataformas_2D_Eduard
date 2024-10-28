@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && GroundSensor.isGrounded && !isAttacking)
         {
             Jump();
+            
         }
 
         if (Input.GetButtonDown("Attack") && GroundSensor.isGrounded && !isAttacking)
@@ -98,6 +100,7 @@ public class PlayerController : MonoBehaviour
     {
         characterRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         characterAnimator.SetBool("IsJumping", true);
+        SoundManager.instance.PlaySFX(SoundManager.instance._audioSource ,SoundManager.instance.JumpAudio);
     }
 
     /*void Attack()
@@ -152,6 +155,7 @@ public class PlayerController : MonoBehaviour
     {
         isAttacking = true;
         characterAnimator.SetTrigger("Attack");
+        SoundManager.instance.PlaySFX(SoundManager.instance._audioSource ,SoundManager.instance.AttackAudio);
     }
 
     void Attack()
@@ -167,6 +171,8 @@ public class PlayerController : MonoBehaviour
                 
                 Mimico mimicoScript = enemy.GetComponent<Mimico>();
                 mimicoScript.TakeDamage();
+
+               
             }
        }
     }
@@ -188,7 +194,9 @@ public class PlayerController : MonoBehaviour
         else
         {
             characterAnimator.SetTrigger("IsHurt");
+             SoundManager.instance.PlaySFX(SoundManager.instance._audioSource ,SoundManager.instance.hurtAudio);
         }
+
     }
 
     public void AddHealth(int amount)
@@ -206,7 +214,13 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         characterAnimator.SetTrigger("IsDead");
-        Destroy(gameObject, 0.6f);
+        
+        SoundManager.instance.PlaySFX(SoundManager.instance._audioSource ,SoundManager.instance.MuerteAudio);
+        
+       
+        StartCoroutine(WaitAndLoadGameOverScene());
+        
+    
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -224,5 +238,20 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(attackHitBox.position, attackRadius);
     }
 
-    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Limite"))
+        {
+            Die();
+        }
+    }
+
+
+    private IEnumerator WaitAndLoadGameOverScene()
+    {
+        yield return new WaitForSeconds(0.6f); 
+        SceneManager.LoadScene("Game Over"); 
+    }
+
+
 }

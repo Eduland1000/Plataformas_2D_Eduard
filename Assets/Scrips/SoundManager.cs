@@ -17,6 +17,14 @@ public class SoundManager : MonoBehaviour
 
     public AudioClip StarAudio;
 
+    public AudioClip MuerteAudio;
+
+    public AudioClip AttackAudio;
+    
+    public AudioClip JumpAudio;
+
+
+
     /*public AudioClip [] audios;*/
 
     void Awake()

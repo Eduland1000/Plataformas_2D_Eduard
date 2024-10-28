@@ -84,6 +84,10 @@ public class GameManager : MonoBehaviour
     star++;
     _startext.text = star.ToString();
     //coins += 1;
+      if (star >= 4)
+        {
+            SceneLoader("Victory"); // Cambia "Victory" por el nombre de tu escena de victoria
+        }
    }
 public void SetHealthBar(int maxHealth)
  {
