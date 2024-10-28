@@ -23,7 +23,7 @@ public class SoundManager : MonoBehaviour
     
     public AudioClip JumpAudio;
 
-
+    public AudioClip HearthAudio;
 
     /*public AudioClip [] audios;*/
 

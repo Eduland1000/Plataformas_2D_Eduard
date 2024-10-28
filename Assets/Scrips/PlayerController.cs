@@ -204,6 +204,7 @@ public class PlayerController : MonoBehaviour
         // Aumentar la vida del jugador
         _currentHealth += amount;
         GameManager.instance.UpdateHealthBar(_currentHealth);
+        SoundManager.instance.PlaySFX(SoundManager.instance._audioSource ,SoundManager.instance.HearthAudio);
 
         // Verificar si la vida del jugador excede la vida máxima
         if (_currentHealth > _maxHealth)
